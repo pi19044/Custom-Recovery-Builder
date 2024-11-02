@@ -135,6 +135,11 @@ jobs:
         cd android-recovery
         git clone -b android-11 https://github.com/omnirom/android_vendor_omni ./vendor/omni
 
+    - name: Remove omni build soong generator
+      run: |
+        cd android-recovery
+        rm -rf vendor/omni/build/soong/generator
+
     - name: Check Build Makefile
       run: |
         cd android-recovery
