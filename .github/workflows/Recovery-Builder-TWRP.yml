@@ -15,19 +15,19 @@ on:
       DEVICE_TREE:
         description: 'Custom Recovery Tree' # Your already made Device Tree for TWRP
         required: true
-        default: 'https://github.com/cd-Crypton/custom_recovery_tree_realme_macedonia'
+        default: 'https://github.com/pi19044/android_device_xiaomi_whyred-twrp'
       DEVICE_TREE_BRANCH:
         description: 'Custom Recovery Tree Branch' # Your Device Tree Branch, make sure it's right.
         required: true
-        default: 'twrp-12.1'
+        default: 'main'
       DEVICE_PATH:
         description: 'Specify your Device Path' # As is, just like your DEVICE_PATH in your BoardConfig.mk
         required: true
-        default: 'device/realme/macedonia'
+        default: 'device/xiaomi/whyred'
       DEVICE_NAME:
         description: 'Specify your Device Codename' # As is, just like your PRODUCT_DEVICE in your device tree.
         required: true
-        default: 'macedonia'
+        default: 'whyred'
       BUILD_TARGET:
         description: 'Specify your Build Target' # Pick among boot, recovery and vendor_boot
         required: true
@@ -122,6 +122,18 @@ jobs:
         git clone ${{ github.event.inputs.DEVICE_TREE }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
         cd ${{ github.event.inputs.DEVICE_PATH }}
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        
+    - name: Clone omni vendor (TWRP 12.1)
+      if: github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
+      run: |
+        cd android-recovery
+        git clone https://github.com/omnirom/android_vendor_omni -v android-12.1 ./vendor/omni
+        
+    - name: Clone omni vendor (TWRP 11)
+      if: github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
+      run: |
+        cd android-recovery
+        git clone https://github.com/omnirom/android_vendor_omni -v android-11 ./vendor/omni
 
     - name: Check Build Makefile
       run: |
