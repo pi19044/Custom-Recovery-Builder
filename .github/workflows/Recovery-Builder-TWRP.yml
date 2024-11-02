@@ -123,18 +123,6 @@ jobs:
         cd ${{ github.event.inputs.DEVICE_PATH }}
         echo "COMMIT_ID=$(git rev-parse HEAD)" >> $GITHUB_ENV
         
-    - name: Clone omni vendor (TWRP 12.1)
-      if: github.event.inputs.MANIFEST_BRANCH == 'twrp-12.1'
-      run: |
-        cd android-recovery
-        git clone -b android-12.1 https://github.com/omnirom/android_vendor_omni ./vendor/omni
-        
-    - name: Clone omni vendor (TWRP 11)
-      if: github.event.inputs.MANIFEST_BRANCH == 'twrp-11'
-      run: |
-        cd android-recovery
-        git clone -b android-11 https://github.com/omnirom/android_vendor_omni ./vendor/omni
-
     - name: Check Build Makefile
       run: |
         cd android-recovery
